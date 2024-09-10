@@ -42,3 +42,77 @@ const quotes = {
         "People can’t drive you crazy if you don’t give them the keys."
     ]
 };
+
+
+let currentIndex = 0;
+
+const quoteDisplay = document.getElementById('quote');
+const categorySelect = document.getElementById('category');
+const nextButton = document.getElementById('next');
+const prevButton = document.getElementById('prev');
+const randomButton = document.getElementById('random');
+
+
+
+
+function DisplayQuote() {
+    const category = categorySelect.value;
+    const quotesArray = quotes[category]; //  quotes for that specific category
+    quoteDisplay.textContent = quotesArray[currentIndex]; // specific category ko 0 index wala quote
+}
+
+categorySelect.addEventListener('change', function() {
+    currentIndex = 0;
+    DisplayQuote();
+});
+
+nextButton.addEventListener('click', function() {
+    const category = categorySelect.value;
+    const quotesArray = quotes[category];
+
+    // index 1 le increment garxa, taba samma jaba samma category vitra ko array ko length exceds hudaian if array ko length vanda dherai vayo vane feri starting index wala quote display garxa
+    currentIndex = (currentIndex + 1) % quotesArray.length;
+
+    // selected category ko next quote display garxa
+    DisplayQuote();
+});
+
+
+prevButton.addEventListener('click', function() {
+    const category = categorySelect.value;
+    const quotesArray = quotes[category];
+
+    // index 1 le decrement garxa, taba samma jaba samma category vitra ko array ko length exceds hudaian if array ko length vanda dherai vayo vane feri starting index wala quote display garxa
+    currentIndex = (currentIndex - 1 + quotesArray.length) % quotesArray.length;
+
+    // selected category ko prev quote display garxa
+    DisplayQuote();
+});
+
+// random quote
+randomButton.addEventListener('click', function() {
+    const category = categorySelect.value;
+    const quotesArray = quotes[category];
+    // math.random le 0 ra 1 bich ma floating random numb dinxa like 0.5 and array length is 4 so 4*0.5 = 2.0 so math.floor le 2 dinxa ani 2 index ma vako quotes will be displayed
+    currentIndex = Math.floor(Math.random() * quotesArray.length);
+    DisplayQuote();
+});
+
+
+
+const incbtn = document.getElementById('increase-font')
+const decbtn = document.getElementById('decrease-font')
+let currentFontSize = 12;
+
+incbtn.addEventListener('click', function() {
+    currentFontSize += 2;
+    quoteDisplay.style.fontSize = currentFontSize + 'px';
+});
+
+decbtn.addEventListener('click', function() {
+    currentFontSize -= 2;
+    quoteDisplay.style.fontSize = currentFontSize + 'px';
+});
+
+// page load vayesi feri suruko quote dekhauxa
+DisplayQuote();
